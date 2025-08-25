@@ -1,15 +1,19 @@
 import { useCallback } from "react";
 
-interface ApiResponse {
-    sucess: boolean;
-    data?: any;
-    error?: string;
+export interface Modulo {
+  id: string;
+  e3Lib: string;
+  nome: string;
+  tipoModulo: number;
+  subtipo: number;
+  categoria: number;
+  moduloPrincipalId: string | null;
 }
 
 export const useApiService = () => {
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7084';
 
-    const checkModuleExists = useCallback(async (moduloId: string): Promise<boolean> => {
+     const checkModuleExists = useCallback(async (moduloId: string): Promise<Modulo | null> => {
         try {
             const response = await fetch(`${API_BASE_URL}/api/Modulo/${moduloId}`, {
                 method: 'GET',
@@ -19,14 +23,16 @@ export const useApiService = () => {
             });
 
             if (response.status === 404) {
-                return false
+                return null
             }
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            return true;
+            const modulo: Modulo = await response.json();
+            return modulo;
+
         } catch (error) {
             console.error('Error checking module:', error);
             throw new Error('Failed to check module existence');

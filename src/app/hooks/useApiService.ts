@@ -10,36 +10,40 @@ export interface Modulo {
   moduloPrincipalId: string | null;
 }
 
+export class ApiServiceError extends Error {
+  constructor(message: string, public readonly statusCode?: number) {
+    super(message);
+    this.name = 'ApiServiceError';
+  }
+}
+
 export const useApiService = () => {
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7084';
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7084';
 
-     const checkModuleExists = useCallback(async (moduloId: string): Promise<Modulo | null> => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/Modulo/${moduloId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+  const checkModuleExists = useCallback(async (moduloId: string): Promise<Modulo> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/Modulo/${moduloId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-            if (response.status === 404) {
-                return null
-            }
+      if (response.status === 404) {
+        throw new ApiServiceError('Módulo não encontrado', 404);
+      }
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+      if (!response.ok) {
+        throw new ApiServiceError(`Erro HTTP: ${response.status}`, response.status);
+      }
 
-            const modulo: Modulo = await response.json();
-            return modulo;
+      return await response.json();
+      
+    } catch (error) {
+      if (error instanceof ApiServiceError) {
+        throw error;
+      }
+      throw new ApiServiceError('Falha ao verificar existência do módulo');
+    }
+  }, [API_BASE_URL]);
 
-        } catch (error) {
-            console.error('Error checking module:', error);
-            throw new Error('Failed to check module existence');
-        }
-    }, [API_BASE_URL]);
-
-    return {
-        checkModuleExists,
-    };
+  return { checkModuleExists };
 };

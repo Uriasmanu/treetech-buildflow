@@ -1,43 +1,63 @@
 'use client';
 import Image from "next/image";
 import logo from "../../../../public/image/logo.png"
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useApiService } from "@/app/hooks/useApiService";
+import { transformModuloToDisplayValues } from "@/app/utils/moduloTransformer";
 
 
 export default function BuildeForm() {
-    const deviceData = {
-        id: "Id do modulo",
-        e3lib: "E3Lib do IED",
-        nome: "Nome do IED",
-        protocolo: "Protocolo",
-        nomeLib: "Nome LIB E3",
-        versaoFirmware: "Versão de Firmware",
-        tagMapa: "Tag do Mapa",
-        tipoModulo: "Tipo do Módulo",
-        subtipo: "Subtipo",
-        categoria: "Categoria",
-        moduloPrincipal: "Módulo Principal ID",
-        caminhoMapa: "Caminho do Mapa",
-        caminhoDestino: "Caminho de Destino"
+  const searchParams = useSearchParams();
+  const moduleId = searchParams.get('id');
+  const { checkModuleExists } = useApiService();
+  
+  const [deviceValues, setDeviceValues] = useState(transformModuloToDisplayValues(null));
+  const [loading, setLoading] = useState(!!moduleId);
+
+  // Campos editáveis - agora inicializados com valores da API
+  const [versaoFirmware, setVersaoFirmware] = useState("");
+  const [tagMapa, setTagMapa] = useState("");
+  const [protocolo, setProtocolo] = useState("");
+  const [caminhoMapa, setCaminhoMapa] = useState("");
+  const [caminhoDestino, setCaminhoDestino] = useState("");
+
+  useEffect(() => {
+    const fetchModuloData = async () => {
+      if (!moduleId) return;
+
+      setLoading(true);
+      try {
+        const modulo = await checkModuleExists(moduleId);
+        const displayValues = transformModuloToDisplayValues(modulo);
+        setDeviceValues(displayValues);
+        
+      } catch (error) {
+        console.error('Erro ao buscar módulo:', error);
+        setDeviceValues(transformModuloToDisplayValues(null));
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const deviceValues = {
-        id: "9333BA44-C1FE-43A6-ADBA-EBA038557351",
-        e3lib: "GMPEST",
-        nome: "GMP - Sensor Gás e Umidade Dissolvidos no Óleo Isolante",
-        protocolo: "MODBUS",
-        nomeLib: "MDB_GMPEST_V12",
-        tipoModulo: "1 (Supervisao)",
-        subtipo: "11 (Gmp)",
-        categoria: "1 (Integral)",
-        moduloPrincipal: "N/A",
-    };
+    fetchModuloData();
+  }, [moduleId, checkModuleExists]);
 
-    const [versaoFirmware, setVersaoFirmware] = useState("");
-    const [tagMapa, setTagMapa] = useState("");
-    const [caminhoMapa, setCaminhoMapa] = useState("");
-    const [caminhoDestino, setCaminhoDestino] = useState("");
+  const deviceData = {
+    id: "Id do modulo",
+    e3lib: "E3Lib do IED",
+    nome: "Nome do IED",
+    protocolo: "Protocolo",
+    nomeLib: "Nome LIB E3",
+    versaoFirmware: "Versão de Firmware",
+    tagMapa: "Tag do Mapa",
+    tipoModulo: "Tipo do Módulo",
+    subtipo: "Subtipo",
+    categoria: "Categoria",
+    moduloPrincipal: "Módulo Principal ID",
+    caminhoMapa: "Caminho do Mapa",
+    caminhoDestino: "Caminho de Destino"
+  };
 
     return (
         <div>
@@ -182,6 +202,24 @@ export default function BuildeForm() {
                             className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
                         >
                             {deviceData.tagMapa}
+                        </label>
+                    </div>
+
+                    <div id="input" className="relative">
+                        <input
+                            type="phone"
+                            id="floating_outlined"
+                            className="block w-full text-sm h-[50px] px-4 text-slate-900 bg-white rounded-[8px] border border-violet-200 appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-primary focus:ring-0 hover:border-brand-500-secondary- peer invalid:border-error-500 invalid:focus:border-error-500 overflow-ellipsis overflow-hidden text-nowrap pr-[48px]"
+                            placeholder={deviceData.protocolo}
+                            value={protocolo}
+                            onChange={(e) => setProtocolo(e.target.value)}
+                            required
+                        />
+                        <label
+                            htmlFor="floating_outlined"
+                            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                        >
+                            {deviceData.protocolo}
                         </label>
                     </div>
 

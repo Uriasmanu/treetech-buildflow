@@ -17,18 +17,28 @@ export class ApiServiceError extends Error {
   }
 }
 
+const isValidGUID = (gid: string): boolean => {
+  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  return uuidRegex.test(gid);
+};
+
 export const useApiService = () => {
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7084';
 
   const checkModuleExists = useCallback(async (moduloId: string): Promise<Modulo> => {
     try {
+
+      if (!isValidGUID(moduloId)) {
+        throw new ApiServiceError('GUID inválido. Certifique-se de que ele está no formato correto', 400);
+      }
+
       const response = await fetch(`${API_BASE_URL}/api/Modulo/${moduloId}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
 
       if (response.status === 404) {
-        throw new ApiServiceError('Módulo não encontrado', 404);
+        throw new ApiServiceError('Módulo não encontrado. Verifique se o GID está correto.', 404);
       }
 
       if (!response.ok) {
@@ -36,7 +46,7 @@ export const useApiService = () => {
       }
 
       return await response.json();
-      
+
     } catch (error) {
       if (error instanceof ApiServiceError) {
         throw error;

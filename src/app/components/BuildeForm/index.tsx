@@ -21,6 +21,42 @@ interface BuildeFormProps {
     onSave?: (formData: any) => void;
 }
 
+
+interface TreetechSensor {
+    codigo: string;
+    imagem: string;
+}
+
+const sensoresTreetech: TreetechSensor[] = [
+    { codigo: "AVR_V1", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-AVR.png" },
+    { codigo: "AVR_V2", imagem: "https://treetech.com.br/wp-content/uploads/2025/08/sensor-AVR-v2.png" },
+    { codigo: "BM", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-BM.png" },
+    { codigo: "DI", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-DI.png" },
+    { codigo: "DM", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-DM.png" },
+    { codigo: "GMM", imagem: "https://treetech.com.br/wp-content/uploads/2016/06/sensor-GMM-MMI.png" },
+    { codigo: "GMP", imagem: "https://treetech.com.br/wp-content/uploads/2021/11/sensor-GMP.png" },
+    { codigo: "IDM", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-IDM.png" },
+    { codigo: "MBR", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-MBR.png" },
+    { codigo: "MO", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-MO.png" },
+    { codigo: "PI", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-PI.png" },
+    { codigo: "PS", imagem: "https://treetech.com.br/wp-content/uploads/2016/06/sensor-PS.png" },
+    { codigo: "RR", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-RR.png" },
+    { codigo: "SD", imagem: "https://treetech.com.br/wp-content/uploads/2025/05/sd-sensor.jpg" },
+    { codigo: "SDG", imagem: "https://treetech.com.br/wp-content/uploads/2017/11/sensor-SDG.png" },
+    { codigo: "SDM", imagem: "https://treetech.com.br/wp-content/uploads/2019/06/sensor-IDM-SDM.png" },
+    { codigo: "SDT", imagem: "https://treetech.com.br/wp-content/uploads/2018/07/sensor-SDT.png" },
+    { codigo: "SDV", imagem: "https://treetech.com.br/wp-content/uploads/2018/07/sensor-SDV.png" },
+    { codigo: "SPS", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-SPS.png" },
+    { codigo: "TI", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-TI.png" },
+    { codigo: "TM", imagem: "https://treetech.com.br/wp-content/uploads/2024/01/TM-novo-v2.png" },
+    { codigo: "TM1", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-TM1.png" },
+    { codigo: "TM2", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-TM1.png" },
+    { codigo: "TMV", imagem: "https://treetech.com.br/wp-content/uploads/2018/05/sensor-TMV-desc.png" },
+    { codigo: "TS", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-TS.png" }
+];
+
+
+
 export default function BuildeForm({ initialValues = {}, loading = false, onSave }: BuildeFormProps) {
 
     const [e3lib, setE3lib] = useState(initialValues.e3lib || "");
@@ -51,7 +87,7 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
     }, [initialValues]);
 
     const deviceData = {
-        e3lib: "E3Lib do IED",
+        e3lib: "E3Lib do IED: GMPEST",
         nome: "Descrição do IED",
         protocolo: "Protocolo",
         versaoFirmware: "Versão de Firmware",
@@ -63,6 +99,22 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
         caminhoMapa: "Caminho do Mapa",
         caminhoDestino: "Caminho de Destino"
     };
+
+    // Função para determinar qual imagem exibir
+    const getImagem = () => {
+        if (!e3lib || e3lib.trim() === "") {
+            return logo;
+        }
+
+        const textoE3Lib = e3lib.toUpperCase();
+        const sensorEncontrado = sensoresTreetech.find(sensor =>
+            textoE3Lib.includes(sensor.codigo.toUpperCase())
+        );
+
+        return sensorEncontrado ? sensorEncontrado.imagem : logo;
+    };
+
+    const imagemParaExibir = getImagem();
 
     return (
         <div>
@@ -76,8 +128,8 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
                         >
                             <div className="flex items-center justify-center h-[60px] w-[60px] rounded-[16px] overflow-hidden">
                                 <Image
-                                    src={logo}
-                                    alt="Logo Treetech"
+                                    src={imagemParaExibir}
+                                    alt={imagemParaExibir === logo ? "Logo Treetech" : "Imagem do Sensor"}
                                     width={60}
                                     height={60}
                                     className="object-contain"

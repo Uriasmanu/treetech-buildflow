@@ -43,7 +43,10 @@ https://dribbble.com/shots/24035914-Questionnaire-Form-Quiz
 https://dribbble.com/shots/18078720-Responsive-onboarding-form
 - [x] Realizar a conexão do front com a api com o back
 - [x] Realizar a primeira cchamada na API get moduloID
-- [] Trazer as informações da api no form
+- [x] Trazer as informações da api no form
+- [ ] Enviar as informações do form para o back
+- [ ] Criar os enuns para armazenar os descritivos
+- [ ] Criar a funcionalidade de ao clicar em f1 trazer informações? Usar um select?
 
 
 #### Configurações

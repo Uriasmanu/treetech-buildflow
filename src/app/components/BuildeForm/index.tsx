@@ -114,7 +114,12 @@ const categoriaOptions = [
     { value: 2, label: "Componentizado" },
 ];
 
-const renderOptions = (options: { value: number; label: string }[]) =>
+const protocoloOptions = [
+    { value: "MDB", label: "MODBUS" },
+    { value: "DNP", label: "DNP" },
+];
+
+const renderOptions = (options: { value: number | string; label: string }[]) =>
     options.map(opt => (
         <option key={opt.value} value={opt.value}>
             {opt.value} ({opt.label})
@@ -152,11 +157,11 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
     }, [initialValues]);
 
     const deviceData = {
-        e3lib: "E3Lib do IED: GMPEST",
+        e3lib: "E3Lib do IED: (ex: GMPEST)",
         nome: "Descrição do IED",
         protocolo: "Protocolo",
-        versaoFirmware: "Versão de Firmware",
-        tagMapa: "Tag do Mapa",
+        versaoFirmware: "Versão de Firmware: (ex: 12)",
+        tagMapa: "Tag do Mapa: (ex: 12)",
         tipoModulo: "Tipo do Módulo",
         subtipo: "Subtipo",
         categoria: "Categoria",
@@ -361,15 +366,16 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
                     </div>
 
                     <div id="input" className="relative">
-                        <input
-                            type="phone"
+                        <select
                             id="floating_outlined"
                             className="block w-full text-sm h-[50px] px-4 text-slate-900 bg-white rounded-[8px] border border-violet-200 appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-primary focus:ring-0 hover:border-brand-500-secondary- peer invalid:border-error-500 invalid:focus:border-error-500 overflow-ellipsis overflow-hidden text-nowrap pr-[48px]"
-                            placeholder={deviceData.protocolo}
                             value={protocolo}
                             onChange={(e) => setProtocolo(e.target.value)}
                             required
-                        />
+                        >
+                            <option value="" disabled>{deviceData.protocolo}</option>
+                            {renderOptions(protocoloOptions)}
+                        </select>
                         <label
                             htmlFor="floating_outlined"
                             className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"

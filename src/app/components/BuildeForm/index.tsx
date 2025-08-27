@@ -55,6 +55,71 @@ const sensoresTreetech: TreetechSensor[] = [
     { codigo: "TS", imagem: "https://treetech.com.br/wp-content/uploads/2014/10/sensor-TS.png" }
 ];
 
+// Arrays de opções
+const tipoModuloOptions = [
+    { value: 0, label: "Indefinido" },
+    { value: 1, label: "Supervisao" },
+    { value: 2, label: "Engenharia" },
+    { value: 3, label: "Geral" },
+    { value: 4, label: "Auxiliar" },
+    { value: 5, label: "Componente" },
+];
+
+const subtipoOptions = [
+    { value: 0, label: "Indefinido" },
+    { value: 1, label: "Tmv" },
+    { value: 2, label: "ComponenteTemperaturaTmv" },
+    { value: 3, label: "ComponenteRegulacaoTensaoTmv" },
+    { value: 4, label: "ConjuntoRegulacaoTmv" },
+    { value: 5, label: "Tm1" },
+    { value: 6, label: "Tm2" },
+    { value: 7, label: "Dtm" },
+    { value: 8, label: "Lad" },
+    { value: 9, label: "BM" },
+    { value: 10, label: "Gmm" },
+    { value: 11, label: "Gmp" },
+    { value: 12, label: "MO" },
+    { value: 13, label: "Idx" },
+    { value: 14, label: "Ids" },
+    { value: 15, label: "Idm" },
+    { value: 16, label: "Dm1" },
+    { value: 17, label: "Dm2" },
+    { value: 18, label: "Avr" },
+    { value: 19, label: "ConjuntoRegulacaoAvr" },
+    { value: 20, label: "Sps" },
+    { value: 21, label: "TS" },
+    { value: 22, label: "PI" },
+    { value: 23, label: "TransdutorDigital" },
+    { value: 24, label: "Cromatografia" },
+    { value: 25, label: "FisicoQuimico" },
+    { value: 26, label: "ManutencaoResfriamento" },
+    { value: 27, label: "AguaPapel" },
+    { value: 28, label: "DiferencialTemperaturaComutador" },
+    { value: 29, label: "EficienciaResfriamento" },
+    { value: 30, label: "EnvelhecimentoIsolacao" },
+    { value: 31, label: "GradienteFinalEnrolamento" },
+    { value: 32, label: "ManutencaoComutador" },
+    { value: 33, label: "SimulacaoCarga" },
+    { value: 34, label: "ComponenteConcentradorTmv" },
+    { value: 35, label: "Vamp321" },
+    { value: 36, label: "Hydran" },
+    { value: 37, label: "Sel2414" },
+    { value: 38, label: "DI" },
+    { value: 39, label: "Lap" },
+];
+
+const categoriaOptions = [
+    { value: 0, label: "Indefinido" },
+    { value: 1, label: "Integral" },
+    { value: 2, label: "Componentizado" },
+];
+
+const renderOptions = (options: { value: number; label: string }[]) =>
+    options.map(opt => (
+        <option key={opt.value} value={opt.value}>
+            {opt.value} ({opt.label})
+        </option>
+    ));
 
 
 export default function BuildeForm({ initialValues = {}, loading = false, onSave }: BuildeFormProps) {
@@ -184,15 +249,17 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
                     </div>
 
                     <div id="input" className="relative">
-                        <input
-                            type="text"
+                        <select
                             id="floating_outlined"
                             className="block w-full text-sm h-[50px] px-4 text-slate-900 bg-white rounded-[8px] border border-violet-200 appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-primary focus:ring-0 hover:border-brand-500-secondary- peer invalid:border-error-500 invalid:focus:border-error-500 overflow-ellipsis overflow-hidden text-nowrap pr-[48px]"
-                            placeholder={deviceData.tipoModulo}
                             value={tipoModulo}
                             onChange={(e) => setTipoModulo(e.target.value)}
                             required
-                        />
+                        >
+                            <option value="" disabled>{deviceData.tipoModulo}</option>
+                            {renderOptions(tipoModuloOptions)}
+                        </select>
+
                         <label
                             htmlFor="floating_outlined"
                             className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
@@ -202,15 +269,16 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
                     </div>
 
                     <div id="input" className="relative">
-                        <input
-                            type="text"
+                        <select
                             id="floating_outlined"
                             className="block w-full text-sm h-[50px] px-4 text-slate-900 bg-white rounded-[8px] border border-violet-200 appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-primary focus:ring-0 hover:border-brand-500-secondary- peer invalid:border-error-500 invalid:focus:border-error-500 overflow-ellipsis overflow-hidden text-nowrap pr-[48px]"
-                            placeholder={deviceData.subtipo}
                             value={subtipo}
                             onChange={(e) => setSubtipo(e.target.value)}
                             required
-                        />
+                        >
+                            <option value="" disabled>{deviceData.subtipo}</option>
+                            {renderOptions(subtipoOptions)}
+                        </select>
                         <label
                             htmlFor="floating_outlined"
                             className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
@@ -220,15 +288,16 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
                     </div>
 
                     <div id="input" className="relative">
-                        <input
-                            type="phone"
+                        <select
                             id="floating_outlined"
                             className="block w-full text-sm h-[50px] px-4 text-slate-900 bg-white rounded-[8px] border border-violet-200 appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-primary focus:ring-0 hover:border-brand-500-secondary- peer invalid:border-error-500 invalid:focus:border-error-500 overflow-ellipsis overflow-hidden text-nowrap pr-[48px]"
-                            placeholder={deviceData.categoria}
                             value={categoria}
                             onChange={(e) => setCategoria(e.target.value)}
                             required
-                        />
+                        >
+                            <option value="" disabled>{deviceData.categoria}</option>
+                            {renderOptions(categoriaOptions)}
+                        </select>
                         <label
                             htmlFor="floating_outlined"
                             className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 top-2 z-10 origin-[0] bg-white disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"

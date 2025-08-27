@@ -48,7 +48,7 @@ https://dribbble.com/shots/18078720-Responsive-onboarding-form
 - [ ] Criar os enuns para armazenar os descritivos
 - [ ] Criar a funcionalidade de ao clicar em f1 trazer informações? Usar um select?
 - [ ] Criar um overlay com o resumo das informações antes de enviar para o backend
-- [ ] Usar as imagens dos modulos que estão disponiveis o site da Treetech
+- [x] Usar as imagens dos modulos que estão disponiveis o site da Treetech
 
 
 

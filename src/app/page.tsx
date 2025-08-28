@@ -1,4 +1,3 @@
-import BuildeForm from "./components/forms/BuildeForm";
 import Cabecalho from "./components/layout/Cabecalho";
 import Iniciar from "./components/process/Iniciar";
 

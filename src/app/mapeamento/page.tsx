@@ -1,5 +1,6 @@
 import BuildeForm from "../components/BuildeForm";
 import Cabecalho from "../components/Cabecalho";
+import { Resumo } from "../components/Resumo";
 
 export default function Mapeamento() {
   return (
@@ -9,6 +10,7 @@ export default function Mapeamento() {
         <h2 className="text-amber-50 font-bold text-4xl text-center">Mapeamento</h2>
         <BuildeForm />
       </section>
+
     </div>
   );
 }

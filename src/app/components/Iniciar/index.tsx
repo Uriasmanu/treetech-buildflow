@@ -2,8 +2,8 @@
 import { useModuleValidation } from "@/app/hooks/useModuleValidation";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ModuleIdInput } from "../ModuleIdInput/ModuleIdInput";
-import { Notification } from "../Notification/Notification";
+import { Notification } from "../Notification";
+import { ModuleIdInput } from "../ModuleIdInput";
 
 export default function Iniciar() {
   const router = useRouter();

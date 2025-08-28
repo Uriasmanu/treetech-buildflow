@@ -2,6 +2,7 @@
 import Image from "next/image";
 import logo from "../../../../public/image/logo.png"
 import { useState, useEffect } from "react";
+import { Resumo } from "../Resumo";
 
 interface BuildeFormProps {
     initialValues?: {
@@ -157,11 +158,11 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
     }, [initialValues]);
 
     const deviceData = {
-        e3lib: "E3Lib do IED: (ex: GMPEST)",
+        e3lib: "E3Lib do IED: (exemplo: GMPEST)",
         nome: "Descrição do IED",
         protocolo: "Protocolo",
-        versaoFirmware: "Versão de Firmware: (ex: 12)",
-        tagMapa: "Tag do Mapa: (ex: 12)",
+        versaoFirmware: "Versão de Firmware: (exemplo: 12)",
+        tagMapa: "Tag do Mapa: (exemplo: 12)",
         tipoModulo: "Tipo do Módulo",
         subtipo: "Subtipo",
         categoria: "Categoria",
@@ -185,6 +186,83 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
     };
 
     const imagemParaExibir = getImagem();
+    const [mostrarResumo, setMostrarResumo] = useState(false);
+
+    const todosCamposPreenchidos = () => {
+        return (
+            e3lib.trim() !== "" &&
+            nome.trim() !== "" &&
+            tipoModulo !== "" &&
+            subtipo !== "" &&
+            categoria !== "" &&
+            versaoFirmware.trim() !== "" &&
+            tagMapa.trim() !== "" &&
+            moduloPrincipal.trim() !== "" &&
+            protocolo !== "" &&
+            caminhoMapa.trim() !== "" &&
+            caminhoDestino.trim() !== ""
+        );
+    };
+
+
+    const [resumoData, setResumoData] = useState({
+        e3lib: "",
+        nome: "",
+        tipoModulo: "",
+        subtipo: "",
+        categoria: "",
+        versaoFirmware: "",
+        tagMapa: "",
+        moduloPrincipal: "",
+        protocolo: "",
+        caminhoMapa: "",
+        caminhoDestino: "",
+        ...initialValues
+    });
+
+    const handleSalvar = () => {
+        
+        const getTipoModuloLabel = (value: string) => {
+            const option = tipoModuloOptions.find(opt => opt.value.toString() === value);
+            return option ? `${value} (${option.label})` : value;
+        };
+
+        const getSubtipoLabel = (value: string) => {
+            const option = subtipoOptions.find(opt => opt.value.toString() === value);
+            return option ? `${value} (${option.label})` : value;
+        };
+
+        const getCategoriaLabel = (value: string) => {
+            const option = categoriaOptions.find(opt => opt.value.toString() === value);
+            return option ? `${value} (${option.label})` : value;
+        };
+
+        const getProtocoloLabel = (value: string) => {
+            const option = protocoloOptions.find(opt => opt.value === value);
+            return option ? `${value} (${option.label})` : value;
+        };
+
+        const formData = {
+            e3lib: e3lib || "",
+            nome: nome || "",
+            tipoModulo: getTipoModuloLabel(tipoModulo),
+            subtipo: getSubtipoLabel(subtipo),
+            categoria: getCategoriaLabel(categoria),
+            versaoFirmware: versaoFirmware || "",
+            tagMapa: tagMapa || "",
+            moduloPrincipal: moduloPrincipal || "",
+            protocolo: getProtocoloLabel(protocolo),
+            caminhoMapa: caminhoMapa || "",
+            caminhoDestino: caminhoDestino || ""
+        };
+
+        setResumoData(formData);
+        setMostrarResumo(true);
+
+        if (onSave) onSave(formData);
+    };
+
+
 
     return (
         <div>
@@ -423,14 +501,24 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
 
                 <div className="sm:flex sm:flex-row-reverse flex gap-4">
                     <button
-                        className="w-fit rounded-lg text-sm px-5 py-2 focus:outline-none h-[50px] border bg-[#FFC300] hover:bg-green-700 font-bold border-violet-500-violet- text-emerald-950 cursor-pointer focus:ring-4 focus:ring-violet-200 hover:ring-4 hover:ring-violet-100 transition-all duration-300"
+                        className={`w-fit rounded-lg text-sm px-5 py-2 focus:outline-none h-[50px] border font-bold border-violet-500-violet- cursor-pointer focus:ring-4 focus:ring-violet-200 hover:ring-4 hover:ring-violet-100 transition-all duration-300 ${todosCamposPreenchidos()
+                            ? "bg-[#FFC300] hover:bg-green-700 text-emerald-950"
+                            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            }`}
                         type="button"
+                        onClick={handleSalvar}
+                        disabled={!todosCamposPreenchidos()}
                     >
-                        <div className="flex gap-2 items-center">Savar</div>
+                        <div className="flex gap-2 items-center">Salvar</div>
                     </button>
                 </div>
             </div>
 
+            {mostrarResumo && (
+                <section className="fixed inset-0 flex items-center justify-center bg-green-900/50 backdrop-blur-sm z-50">
+                    <Resumo data={resumoData} onEditar={() => setMostrarResumo(false)} />
+                </section>
+            )}
         </div>
     )
 }

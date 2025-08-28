@@ -5,6 +5,7 @@ import Cabecalho from "../components/Cabecalho";
 import { useApiService } from "../hooks/useApiService";
 import { transformModuloToDisplayValues } from "../utils/moduloTransformer";
 import { useEffect, useState } from "react";
+import { Resumo } from "../components/Resumo";
 
 export default function Remapeamento() {
   const searchParams = useSearchParams();
@@ -40,7 +41,7 @@ export default function Remapeamento() {
       <section className="flex flex-col w-1/2 h-full bg-green-700 p-6 gap-6">
         <h2 className="text-amber-50 font-bold text-2xl text-center">Remapeamento</h2>
         <BuildeForm
-          initialValues={deviceValues} 
+          initialValues={deviceValues}
           loading={loading}
         />
       </section>

@@ -45,10 +45,14 @@ https://dribbble.com/shots/18078720-Responsive-onboarding-form
 - [x] Realizar a primeira cchamada na API get moduloID
 - [x] Trazer as informações da api no form
 - [ ] Enviar as informações do form para o back
-- [ ] Criar os enuns para armazenar os descritivos
-- [ ] Criar a funcionalidade de ao clicar em f1 trazer informações? Usar um select?
+- [x] Criar os enuns para armazenar os descritivos
+- [x] Usar um select para as informaçoes
 - [ ] Criar um overlay com o resumo das informações antes de enviar para o backend
 - [x] Usar as imagens dos modulos que estão disponiveis o site da Treetech
+- [ ] Preparar as informações nos moldes corretos antes de enviar para o back
+    Nome da LIB E3: MDB_GMP_V12
+  Tag de versão de firmware: v12[fw12]
+  Tag de versão do mapa: v12-MDB
 
 
 

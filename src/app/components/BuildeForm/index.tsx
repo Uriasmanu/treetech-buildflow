@@ -221,7 +221,6 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
     });
 
     const handleSalvar = () => {
-        
         const getTipoModuloLabel = (value: string) => {
             const option = tipoModuloOptions.find(opt => opt.value.toString() === value);
             return option ? `${value} (${option.label})` : value;
@@ -242,14 +241,30 @@ export default function BuildeForm({ initialValues = {}, loading = false, onSave
             return option ? `${value} (${option.label})` : value;
         };
 
+        const formatarFirmware = (valor: string) => {
+            if (!valor) return "";
+            if (valor.startsWith('v') && valor.includes('[fw') && valor.endsWith(']')) {
+                return valor;
+            }
+            return `v${valor}[fw${valor}]`;
+        };
+
+        const formatarTagMapa = (valor: string, protocoloValue: string) => {
+            if (!valor) return "";
+            if (valor.startsWith('v') && valor.includes('-')) {
+                return valor;
+            }
+            return `v${valor}-${protocoloValue}`;
+        };
+
         const formData = {
             e3lib: e3lib || "",
             nome: nome || "",
             tipoModulo: getTipoModuloLabel(tipoModulo),
             subtipo: getSubtipoLabel(subtipo),
             categoria: getCategoriaLabel(categoria),
-            versaoFirmware: versaoFirmware || "",
-            tagMapa: tagMapa || "",
+            versaoFirmware: formatarFirmware(versaoFirmware),
+            tagMapa: formatarTagMapa(tagMapa, protocolo),
             moduloPrincipal: moduloPrincipal || "",
             protocolo: getProtocoloLabel(protocolo),
             caminhoMapa: caminhoMapa || "",

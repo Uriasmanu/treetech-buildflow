@@ -1,4 +1,4 @@
-import BotaoVoltar from "../BotaoVoltar";
+import BotaoVoltar from "../../ui/BotaoVoltar";
 
 interface CabecalhoProps{
   mostrarBotao?: boolean;

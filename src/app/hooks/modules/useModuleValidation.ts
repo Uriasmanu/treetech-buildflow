@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { useApiService } from "./useApiService";
+import { useApiService } from "./api/useApiService";
 
 interface Notification {
     type: 'success' | 'error';

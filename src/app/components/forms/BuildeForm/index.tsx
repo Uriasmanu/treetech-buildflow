@@ -1,8 +1,8 @@
 'use client';
 import Image from "next/image";
-import logo from "../../../../public/image/logo.png"
+import logo from "../../../../../public/image/logo.png"
 import { useState, useEffect } from "react";
-import { Resumo } from "../Resumo";
+import { Resumo } from "../../cards/Resumo";
 
 interface BuildeFormProps {
     initialValues?: {

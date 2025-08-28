@@ -1,11 +1,11 @@
 "use client"
 import { useSearchParams } from "next/navigation";
-import BuildeForm from "../components/BuildeForm";
-import Cabecalho from "../components/Cabecalho";
-import { useApiService } from "../hooks/useApiService";
+import BuildeForm from "../components/forms/BuildeForm";
+import Cabecalho from "../components/layout/Cabecalho";
+import { useApiService } from "../hooks/api/useApiService";
 import { transformModuloToDisplayValues } from "../utils/moduloTransformer";
 import { useEffect, useState } from "react";
-import { Resumo } from "../components/Resumo";
+
 
 export default function Remapeamento() {
   const searchParams = useSearchParams();

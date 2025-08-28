@@ -1,4 +1,4 @@
-import { Modulo } from "@/app/hooks/useApiService";
+import { Modulo } from "@/app/hooks/api/useApiService";
 
 export interface DeviceDisplayValues {
   id: string;

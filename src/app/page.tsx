@@ -1,6 +1,6 @@
-import BuildeForm from "./components/BuildeForm";
-import Cabecalho from "./components/Cabecalho";
-import Iniciar from "./components/Iniciar";
+import BuildeForm from "./components/forms/BuildeForm";
+import Cabecalho from "./components/layout/Cabecalho";
+import Iniciar from "./components/process/Iniciar";
 
 export default function Home() {
   return (

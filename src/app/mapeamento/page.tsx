@@ -1,6 +1,6 @@
-import BuildeForm from "../components/BuildeForm";
-import Cabecalho from "../components/Cabecalho";
-import { Resumo } from "../components/Resumo";
+import BuildeForm from "../components/forms/BuildeForm";
+import Cabecalho from "../components/layout/Cabecalho";
+import { Resumo } from "../components/cards/Resumo";
 
 export default function Mapeamento() {
   return (

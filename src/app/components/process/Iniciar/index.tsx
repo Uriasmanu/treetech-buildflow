@@ -1,9 +1,10 @@
 "use client"
-import { useModuleValidation } from "@/app/hooks/useModuleValidation";
+
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Notification } from "../Notification";
-import { ModuleIdInput } from "../ModuleIdInput";
+import { ModuleIdInput } from "../../ui/ModuleIdInput";
+import { Notification } from "../../ui/Notification";
+import { useModuleValidation } from "@/app/hooks/modules/useModuleValidation";
 
 export default function Iniciar() {
   const router = useRouter();
